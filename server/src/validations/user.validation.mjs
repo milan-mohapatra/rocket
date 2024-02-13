@@ -2,6 +2,7 @@ import User from "../models/user.model.mjs"
 
 export const registrationSchema = {
     username: {
+        escape: true,
         trim: true,
         notEmpty: {
             errorMessage: "valid username required"
@@ -17,6 +18,7 @@ export const registrationSchema = {
         }
     },
     email: {
+        escape: true,
         trim: true,
         normalizeEmail: true,
         isEmail: {
@@ -33,6 +35,7 @@ export const registrationSchema = {
         }
     },
     password: {
+        escape: true,
         isStrongPassword: {
             errorMessage: "minimum 8 charter, 1 lowercase, 1 uppercase, 1 number, 1 special character"
         }
@@ -41,6 +44,7 @@ export const registrationSchema = {
 
 export const loginSchema = {
     email: {
+        escape: true,
         trim: true,
         normalizeEmail: true,
         isEmail: {
@@ -48,6 +52,7 @@ export const loginSchema = {
         }
     },
     password: {
+        escape: true,
         isStrongPassword: {
             errorMessage: "minimum 8 charter, 1 lowercase, 1 uppercase, 1 number, 1 special character"
         }
