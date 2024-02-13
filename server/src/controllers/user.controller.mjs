@@ -7,10 +7,14 @@ import { CustomError } from "../utils/custom.error.mjs";
 
 const userController = {};
 
+/*
+POST /api/users/register
+Access: public
+Desc: Register an user
+*/
 userController.register = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    // return next(new CustomError(errors.array().at(0).msg, 400))
     return res.status(400).json({ errors: errors.array() });
   }
 
@@ -35,6 +39,11 @@ userController.register = async (req, res, next) => {
   }
 };
 
+/*
+POST /api/users/login
+Access: public
+Desc: User login
+*/
 userController.login = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
