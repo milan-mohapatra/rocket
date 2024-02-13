@@ -1,8 +1,8 @@
 import User from "../models/user.model.mjs"
 
 export const registrationSchema = {
-    trim: true,
     username: {
+        trim: true,
         notEmpty: {
             errorMessage: "valid username required"
         },
@@ -30,6 +30,21 @@ export const registrationSchema = {
                     throw new Error("email is already in use")
                 }
             }
+        }
+    },
+    password: {
+        isStrongPassword: {
+            errorMessage: "minimum 8 charter, 1 lowercase, 1 uppercase, 1 number, 1 special character"
+        }
+    }
+}
+
+export const loginSchema = {
+    email: {
+        trim: true,
+        normalizeEmail: true,
+        isEmail: {
+            errorMessage: "valid email required"
         }
     },
     password: {
