@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.mjs";
 import { validationResult } from "express-validator";
-import { CustomError } from "../utils/custom.error.mjs";
+import { CustomError, CustomValidationError } from "../utils/custom.error.mjs";
 
 const userController = {};
 
@@ -15,7 +15,7 @@ Desc: Register an user
 userController.register = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return next(new CustomValidationError(errors.array(), 400))
   }
 
   const body = _.pick(req.body, ["username", "email", "password"]);
@@ -47,8 +47,7 @@ Desc: User login
 userController.login = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    // return next(new CustomError(errors.array().at(0).msg, 400))
-    return res.status(400).json({ errors: errors.array() });
+    return next(new CustomValidationError(errors.array(), 400))
   }
   
   const body = req.body;
