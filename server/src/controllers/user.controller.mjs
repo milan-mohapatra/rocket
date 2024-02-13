@@ -3,10 +3,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.mjs";
 import { validationResult } from "express-validator";
+import { CustomError } from "../utils/custom.error.mjs";
 
 const userController = {};
 
-userController.register = async (req, res) => {
+userController.register = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -23,7 +24,7 @@ userController.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
 
-    await user.save();
+    await users.save();
 
     // generating token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -32,8 +33,7 @@ userController.register = async (req, res) => {
 
     res.status(201).json({token});
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: err.message });
+    next(new CustomError(err.message))
   }
 };
 
