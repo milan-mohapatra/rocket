@@ -39,6 +39,12 @@ export const registrationSchema = {
         isStrongPassword: {
             errorMessage: "minimum 8 charter, 1 lowercase, 1 uppercase, 1 number, 1 special character"
         }
+    },
+    role: {
+        isIn: {
+            options: [["candidate", "recruiter"]],
+            errorMessage: "role should be either candidate or recruiter"
+        }
     }
 }
 

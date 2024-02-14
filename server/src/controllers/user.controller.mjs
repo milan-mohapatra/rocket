@@ -18,7 +18,7 @@ userController.register = async (req, res, next) => {
     return next(new CustomValidationError(errors.array(), 400))
   }
 
-  const body = _.pick(req.body, ["username", "email", "password"]);
+  const body = _.pick(req.body, ["username", "email", "password", "role"]);
 
   try {
     const user = new User(body);
@@ -29,7 +29,7 @@ userController.register = async (req, res, next) => {
 
     await user.save();
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -66,7 +66,7 @@ userController.login = async (req, res, next) => {
       return next(new CustomError("invalid email or password", 404));
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
     res.json({ token });
@@ -75,6 +75,11 @@ userController.login = async (req, res, next) => {
   }
 };
 
+/*
+GET /api/users/account
+Access: user
+Desc: User account info
+*/
 userController.account = async (req, res, next) => {
   const user = req.user
 
