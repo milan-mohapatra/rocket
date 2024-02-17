@@ -3,6 +3,7 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+
 import connectDB from "./config/db.mjs";
 import globalErrorHandler from "./middlewares/global.error.mjs"
 import { CustomError } from "./utils/custom.error.mjs";
