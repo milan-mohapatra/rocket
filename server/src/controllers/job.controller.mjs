@@ -12,7 +12,23 @@ Desc: get all jobs to apply
 */
 jobController.getAllJobs = async (req, res, next) => {
   try {
-    const users = await Job.find()
+    const users = await Job.find().sort({createdAt: -1})
+    res.json(users)
+  } catch (err) {
+    next(new CustomError(err.message));
+  }
+};
+
+/*
+GET /api/jobs/my
+Access: recruiter
+Desc: show all jobs created by recruiter
+*/
+jobController.getMyJobs = async (req, res, next) => {
+  const recruiterId = req.user._id
+  
+  try {
+    const users = await Job.find({recruiterId}).sort({createdAt: -1})
     res.json(users)
   } catch (err) {
     next(new CustomError(err.message));
@@ -44,7 +60,7 @@ jobController.createAJob = async (req, res, next) => {
 };
 
 /*
-POST /api/jobs
+POST /api/jobs/apply
 Access: candidate
 Desc: apply for a job
 */

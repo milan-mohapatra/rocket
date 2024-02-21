@@ -84,6 +84,11 @@ userController.account = async (req, res, next) => {
   const user = req.user
 
   try {
+    if(user.role === "recruiter") {
+      const userInfo = await User.findById(user._id).select(["_id", "username", "email", ""])
+      res.json(userInfo)
+    }
+
     const userInfo = await User.findById(user._id).select(["_id", "username", "email"])
     res.json(userInfo)
   } catch (err) {

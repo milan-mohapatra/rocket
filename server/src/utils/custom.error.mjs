@@ -5,6 +5,7 @@ export class CustomError extends Error {
     }
 }
 
+// check Object.create()
 export class CustomValidationError extends Error {
     constructor(message, statusCode) {
         super()
